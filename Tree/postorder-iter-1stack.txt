@@ -1,0 +1,37 @@
+class Tree
+{
+    //Function to return a list containing the postorder traversal of the tree.
+    ArrayList<Integer> postOrder(Node root)
+    {
+       ArrayList<Integer> ans = new ArrayList<>();
+       Stack<Node> st1 = new Stack<>();
+       
+       Node cur = root;
+       Node temp = null;
+       while(cur!=null || !st1.isEmpty()){
+           
+           if(cur!=null){
+               st1.add(cur);
+               cur = cur.left;
+           }else{
+               temp = st1.peek().right;
+               if(temp == null){
+                   temp = st1.peek();
+                   ans.add(temp.data);
+                   st1.pop();
+                   while(!st1.isEmpty() && temp == st1.peek().right){
+                       temp = st1.peek();
+                       st1.pop();
+                       ans.add(temp.data);
+                   }
+               }else{
+                   cur = temp;
+               }
+           }
+           
+           
+       }
+       
+       return ans;
+    }
+}
