@@ -1,0 +1,32 @@
+class BinaryTree
+{
+    //Function to return a list containing the preorder traversal of the tree.
+    static ArrayList<Integer> preorder(Node root)
+    {
+        ArrayList<Integer> ans = new ArrayList<>();
+        
+        Stack<Node> st = new Stack<>();
+        
+        //Using iterative approach
+        
+        //Since Stack is LIFO approach take the right first and then left.
+        
+        st.add(root);
+        
+        while(!st.isEmpty()){
+            
+            Node node = st.peek();
+            
+            st.pop();
+            
+            ans.add(node.data);
+            
+            if(node.right != null) st.add(node.right);
+            if(node.left != null) st.add(node.left);
+            
+        }
+        
+        return ans;
+    }
+
+}
