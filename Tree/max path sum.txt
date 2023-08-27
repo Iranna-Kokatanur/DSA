@@ -1,0 +1,26 @@
+class Solution
+{   
+    int ans = Integer.MIN_VALUE;
+    int maxPathSumNode(Node root)
+    { 
+        if(root == null) return 0;
+        
+        int leftSum = maxPathSumNode(root.left);
+        
+        int rightSum = maxPathSumNode(root.right);
+        
+        int max_straight = Math.max(root.data + Math.max(leftSum, rightSum), root.data);
+        
+        int max_caseval = Math.max(max_straight, leftSum + rightSum + root.data);
+        
+        ans = Math.max(ans, max_caseval);
+        
+        return max_straight;
+    } 
+    
+    
+    int findMaxSum(Node root){
+        maxPathSumNode(root);
+        return ans;
+    }
+}
