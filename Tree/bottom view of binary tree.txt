@@ -1,0 +1,37 @@
+class Pair{
+    int line;
+    Node node;
+    
+    Pair(int line, Node node){
+        this.line = line;
+        this.node = node;
+    }
+}
+
+class Solution
+{
+    //Function to return a list containing the bottom view of the given tree.
+    public ArrayList <Integer> bottomView(Node root)
+    {   
+        //top view - check is that already line present in Map, for bottom - no need
+        ArrayList<Integer> ans = new ArrayList<>();
+        Queue<Pair> q = new LinkedList<>();
+        Map<Integer, Integer> map = new TreeMap<>();
+        q.add(new Pair(0, root));
+        while(!q.isEmpty()){
+            Pair p = q.peek();
+            int line = p.line;
+            Node node = p.node;
+            q.remove();
+            
+            map.put(line, node.data);
+            
+            if(node.left != null) q.add(new Pair(line-1, node.left));
+            if(node.right != null) q.add(new Pair(line+1, node.right));
+        }
+        
+        for(Map.Entry<Integer, Integer> it: map.entrySet()) ans.add(it.getValue());
+            
+        return ans;
+    }
+}
