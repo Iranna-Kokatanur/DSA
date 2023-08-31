@@ -1,0 +1,55 @@
+
+//only 4 test case passed
+class Solution
+{
+    //Function to find the vertical order traversal of Binary Tree.
+    static class Tuple{
+        int row;
+        int col;
+        Node node;
+        
+        Tuple(Node node, int row, int col){
+            this.row = row;
+            this.col = col;
+            this.node = node;
+        }
+    }
+    static ArrayList <Integer> verticalOrder(Node root)
+    {
+        ArrayList<Integer> ans = new ArrayList<>();
+        Queue<Tuple> q = new LinkedList<>();
+        TreeMap<Integer, TreeMap<Integer, Queue<Integer>>> map = new TreeMap<>();
+        q.add(new Tuple(root, 0, 0));
+        while(!q.isEmpty()){
+            Tuple t = q.peek();
+            Node node = t.node;
+            int row = t.row;
+            int col = t.col;
+            q.remove();
+            if(!map.containsKey(row)) map.put(row, new TreeMap<>());
+            if(!map.get(row).containsKey(col)) map.get(row).put(col, new PriorityQueue<>());
+            map.get(row).get(col).add(node.data);
+            if(node.left != null) q.add(new Tuple(node.left, row - 1, col + 1));
+            if(node.right != null) q.add(new Tuple(node.right, row + 1, col + 1));
+        }
+        
+        List<List<Integer>> ansList = new ArrayList<>();
+        for(TreeMap<Integer, Queue<Integer>> ys : map.values()){
+            ansList.add(new ArrayList<>());
+            for(Queue<Integer> nodes : ys.values()){
+                while(!nodes.isEmpty()){
+                    ansList.get(ansList.size()-1).add(nodes.peek());
+                    nodes.remove();
+                }
+            }
+        }
+        
+        for(int i = 0; i<ansList.size(); i++){
+            for(int node : ansList.get(i)){
+                ans.add(node);
+            }
+        }
+        
+        return ans;
+    }
+}
