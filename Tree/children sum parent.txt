@@ -1,0 +1,28 @@
+class Tree
+{
+    //Function to check whether all nodes of a tree have the value 
+    //equal to the sum of their child nodes.
+    public static void isSumProperty(Node root, boolean[] ans){
+        if(root == null) return;
+        
+        isSumProperty(root.left, ans);
+        isSumProperty(root.right, ans);
+        
+        int total = 0;
+        if(root.left != null) total += root.left.data;
+        if(root.right != null) total += root.right.data;
+        
+        if(root.left != null || root.right != null) {
+            if(total != root.data) ans[0] = false;
+        }
+        
+    }
+    public static int isSumProperty(Node root)
+    {
+        
+        boolean[] ans = new boolean[1];
+        ans[0] = true;
+        isSumProperty(root, ans);
+        return ans[0]? 1: 0;
+    }
+}
