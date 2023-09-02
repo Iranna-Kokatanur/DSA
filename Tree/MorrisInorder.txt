@@ -1,0 +1,45 @@
+class Solution
+{
+    // Return a list containing the inorder traversal of the given tree
+    /*     1
+      2     3
+        4
+          5
+            6*/
+    void MorrisInOrder(Node root, ArrayList<Integer> ans){
+        Node cur = root;
+        while(cur != null){
+            // 1. if left == null print it and go for right
+            if(cur.left == null){
+                ans.add(cur.data);
+                cur = cur.right;
+            }else{
+                //If left go for right most guy and build thread
+                Node prev = cur.left;
+                while(prev.right != null && prev.right != cur){
+                    prev = prev.right;
+                }
+                
+                if(prev.right == null){
+                    //If there is no thread create it and move to the left
+                    prev.right = cur;
+                    cur = cur.left;
+                } 
+                else{
+                    //Just destroy it and move to the right
+                    prev.right = null;
+                    ans.add(cur.data);
+                    cur = cur.right;
+                }
+            }
+        }
+    }
+    ArrayList<Integer> inOrder(Node root)
+    {
+       ArrayList<Integer> ans = new ArrayList<>();
+       MorrisInOrder(root, ans);
+       return ans;
+    }
+    
+    
+}
