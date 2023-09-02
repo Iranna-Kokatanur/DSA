@@ -1,0 +1,52 @@
+class Solution {
+
+    public static void inorder(Node root, int[] ans){
+        if(root == null) return;
+        ans[0]++;
+        inorder(root.left, ans);
+        inorder(root.right, ans);
+    }
+    static int findHeight(Node root, char c){
+        int ans = 0;
+        if(c == 'L'){
+            while(root != null){
+                ans++;
+                root = root.left;
+            }
+        }
+        
+        if(c == 'R'){
+            while(root != null){
+                ans++;
+                root = root.right;
+            }
+        }
+        return ans;
+    }
+    public static int countNoNodes(Node root){
+        if(root == null) return 0;
+        
+        //If it is complete binary tree
+        
+        int leftHeight = findHeight(root.left, 'L');
+        int rightHeight = findHeight(root.right, 'R');
+        
+        if(leftHeight == rightHeight) return (2<<leftHeight) - 1;
+        
+        return 1 + countNoNodes(root.left)+ countNoNodes(root.right);
+    }
+    public static int countNodes(Node root) {
+        
+        int[] ans = new int[1];
+        ans[0] = 0;
+        // inorder(root, ans);
+        
+        
+        //OTHER METHOD USING 2**h - 1
+        
+        ans[0] = countNoNodes(root);
+        
+        return ans[0];
+        
+    }
+}
