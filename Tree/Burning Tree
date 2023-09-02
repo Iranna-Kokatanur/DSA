@@ -1,0 +1,73 @@
+class Solution
+{
+    /*class Node {
+    	int data;
+    	Node left;
+    	Node right;
+    
+    	Node(int data) {
+    		this.data = data;
+    		left = null;
+    		right = null;
+    	}
+    }*/
+    
+    private static Node markParents(Node root, Map<Node, Node> parent_track, int target){
+        Queue<Node> q = new LinkedList<>();
+        Node node = null;
+        q.add(root);
+        while(!q.isEmpty()){
+            Node current = q.peek();
+            if(current.data == target) node = current;
+            q.remove();
+            if(current.left != null){
+                parent_track.put(current.left, current);
+                q.add(current.left);
+            }
+            if(current.right != null){
+                parent_track.put(current.right, current);
+                q.add(current.right);
+            }
+        }
+        
+        return node;
+        
+    }
+    
+    public static int minTime(Node root, int target) 
+    {
+        // Your code goes here
+        Map<Node, Node> parent_track = new HashMap<>();
+        Node node = markParents(root, parent_track, target);
+        Map<Node, Boolean> visited = new HashMap<>();
+        Queue<Node> q = new LinkedList<>();
+        q.add(node);
+        visited.put(node, true);
+        int curr_level = 0;
+        while(!q.isEmpty()){
+            int size = q.size();
+            curr_level++;
+            for(int i = 0; i<size; i++){
+                Node current = q.peek();
+                q.remove();
+                if(current.left != null && visited.get(current.left) == null){
+                    // System.out.println("Left data: "+current.left.data);
+                    q.add(current.left);
+                    visited.put(current.left, true);
+                }
+                if(current.right != null && visited.get(current.right) == null){
+                    q.add(current.right);
+                    visited.put(current.right, true);
+                }
+                
+                if(parent_track.get(current) != null && visited.get(parent_track.get(current)) == null){
+                    q.add(parent_track.get(current));
+                    visited.put(parent_track.get(current), true);
+                }
+            }
+            
+        }
+        
+        return curr_level - 1;
+    }
+}
