@@ -1,0 +1,71 @@
+class Tree 
+{
+    //Function to serialize a tree and return a list containing nodes of tree.
+    
+    // Node ans = null;
+    
+    public void inOrder(Node root, ArrayList<Integer> A){
+        if(root == null){
+            A.add(-1000);
+            return;
+        }
+        
+        A.add(root.data);
+        inOrder(root.left, A);
+        inOrder(root.right, A);
+    }
+	public void serialize(Node root, ArrayList<Integer> A) 
+	{
+	   // Queue<Node> q = new LinkedList<>();
+	   // q.add(root);
+	   // while(!q.isEmpty()){
+	   //     Node cur = q.poll();
+	   //     if(cur == null) A.add(-1000);
+	   //     if(cur != null){
+	   //         q.add(root.left);
+	   //         q.add(root.right);
+	   //     }
+	   // }
+	   
+	   inOrder(root, A);
+	   //ans = root;
+	}
+	
+	//Function to deserialize a list and construct the tree.
+	int i = 0;
+    public Node deSerialize(ArrayList<Integer> A)
+    {   
+        if(i == A.size()) return null;
+        int val = A.get(i);
+        i++;
+        if(val == -1000) return null;
+        Node root = new Node(val);
+        root.left = deSerialize(A);
+        root.right = deSerialize(A);
+        return root;
+        
+        // return null;
+        //code here
+        // if(A.get(0) == -1000) return null;
+        // Queue<Node> q = new LinkedList<>();
+        // int i = 0;
+        // Node root = new Node(A.get(i));
+        // q.add(root);
+        // while(!q.isEmpty()){
+        //     Node node = q.poll();
+        //     i++;
+        //     if(i == A.size()) break;
+        //     if(A.get(i) == -1000) node.left = null;
+        //     else node.left = new Node(A.get(i));
+        //     q.add(node.left);
+            
+        //     i++;
+        //     if(i == A.size()) break;
+        //     if(A.get(i) == -1000) node.right = null;
+        //     else node.right = new Node(A.get(i));
+        //     q.add(root.right);
+        // }
+        
+        // return root;
+    }
+};
