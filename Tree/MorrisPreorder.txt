@@ -1,0 +1,42 @@
+class Tree
+{
+    // Return a list containing the Preorder traversal of the given tree
+    void MorrisPreOrder(Node root, ArrayList<Integer> ans){
+        Node cur = root;
+        while(cur != null){
+            // 1. if left == null print it and go for right
+            if(cur.left == null){
+                ans.add(cur.data);
+                cur = cur.right;
+            }else{
+                //If left go for right most guy and build thread
+                Node prev = cur.left;
+                while(prev.right != null && prev.right != cur){
+                    prev = prev.right;
+                }
+                
+                if(prev.right == null){
+                    //If there is no thread create it and add data and move to the left
+                    prev.right = cur;
+                    ans.add(cur.data);
+                    cur = cur.left;
+                } 
+                else{
+                    //Just destroy it and move to the right
+                    prev.right = null;
+                    cur = cur.right;
+                }
+            }
+        }
+    }
+    
+    ArrayList<Integer> preOrder(Node root)
+    {
+        // Code
+       ArrayList<Integer> ans = new ArrayList<>();
+       MorrisPreOrder(root, ans);
+       return ans;
+    }
+    
+    
+}
