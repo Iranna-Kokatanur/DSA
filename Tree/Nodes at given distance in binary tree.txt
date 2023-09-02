@@ -1,0 +1,68 @@
+class Solution
+{   
+    private static Node markParents(Node root, Map<Node, Node> parent_track, int target){
+        Queue<Node> q = new LinkedList<>();
+        Node node = null;
+        q.add(root);
+        while(!q.isEmpty()){
+            Node current = q.peek();
+            if(current.data == target) node = current;
+            q.remove();
+            if(current.left != null){
+                parent_track.put(current.left, current);
+                q.add(current.left);
+            }
+            if(current.right != null){
+                parent_track.put(current.right, current);
+                q.add(current.right);
+            }
+        }
+        
+        return node;
+        
+    }
+    public static ArrayList<Integer> KDistanceNodes(Node root, int target , int k)
+    {
+        // return the sorted list of all nodes at k dist
+        Map<Node, Node> parent_track = new HashMap<>();
+        Node node = markParents(root, parent_track, target);
+        // System.out.println("TARGET: "+ node.data);
+        Map<Node, Boolean> visited = new HashMap<>();
+        Queue<Node> q = new LinkedList<>();
+        q.add(node);
+        visited.put(node, true);
+        int curr_level = 0;
+        while(!q.isEmpty()){
+            int size = q.size();
+            // System.out.println("Size: "+ size);
+            if(curr_level == k) break;
+            curr_level++;
+            for(int i = 0; i<size; i++){
+                Node current = q.peek();
+                q.remove();
+                if(current.left != null && visited.get(current.left) == null){
+                    // System.out.println("Left data: "+current.left.data);
+                    q.add(current.left);
+                    visited.put(current.left, true);
+                }
+                if(current.right != null && visited.get(current.right) == null){
+                    q.add(current.right);
+                    visited.put(current.right, true);
+                }
+                
+                if(parent_track.get(current) != null && visited.get(parent_track.get(current)) == null){
+                    q.add(parent_track.get(current));
+                    visited.put(parent_track.get(current), true);
+                }
+            }
+            
+        }
+        ArrayList<Integer> ans = new ArrayList<>();
+            while(!q.isEmpty()){
+                Node treeNode = q.poll();
+                ans.add(treeNode.data);
+            }
+        Collections.sort(ans);
+        return ans;
+    }
+};
