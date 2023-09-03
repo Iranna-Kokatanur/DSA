@@ -46,3 +46,51 @@ class Tree {
         return findLast(root.right);
     }
 }
+
+
+
+//KTH Largest 
+
+class Solution
+{
+    // return the Kth largest element in the given BST rooted at 'root'
+    
+    int length(Node root){
+        if(root == null) return 0;
+        
+        return 1 + length(root.left) + length(root.right);
+    }
+    public int kthLargest(Node root,int K)
+    {
+       Node cur = root;
+       int cnt = 1;
+       
+       K = length(root) - K + 1;
+     
+       while(cur != null){
+           
+           if(cur.left == null){
+               if(cnt == K) return cur.data;
+               cnt++;
+               cur = cur.right;
+           }else{
+               Node prev = cur.left;
+               while(prev.right != null && prev.right != cur){
+                   prev = prev.right;
+               }
+               
+               if(prev.right == null){
+                   prev.right = cur;
+                   cur = cur.left;
+               }else{
+                   prev.right = null;
+                   if(cnt == K) return cur.data;
+                   cnt++;
+                   cur = cur.right;
+               }
+           }
+       }
+       
+       return -1;
+    }
+}
