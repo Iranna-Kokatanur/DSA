@@ -1,0 +1,33 @@
+class Solution
+{   
+    static Node prev= null;
+    public static void flatten(Node root)
+    {   //1 ST METHOD
+        /*if(root == null) return;
+        flatten(root.right);
+        flatten(root.left);
+        
+        root.left = null;
+        root.right = prev;
+        prev = root;*/
+        
+        //2ND METHOD
+        /*Stack<Node> st = new Stack<>();
+        
+        st.add(root);
+        
+        while(!st.isEmpty()){
+            Node cur = st.peek();
+            st.pop();
+            if(cur.right != null) st.add(cur.right);
+            if(cur.left != null) st.add(cur.left);
+            if(!st.isEmpty()){
+                cur.right = st.peek();
+            }
+            cur.left = null;
+        }*/
+        
+        //3RD METHOD
+        
+    }
+}
