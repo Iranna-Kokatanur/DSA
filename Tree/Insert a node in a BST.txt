@@ -1,0 +1,28 @@
+class Solution {
+    // Function to insert a node in a BST.
+    Node insert(Node root, int Key) {
+        
+        if(root == null) return new Node(Key);
+        
+        Node cur = root;
+        
+        while(true){
+            if(cur.data == Key) break;
+            if(cur.data < Key){
+                if(cur.right != null) cur = cur.right;
+                else{
+                    cur.right = new Node(Key);
+                    break;
+                }
+            }else{
+                if(cur.left != null) cur = cur.left;
+                else{
+                    cur.left = new Node(Key);
+                    break;
+                }
+            }
+        }
+        
+        return root;
+    }
+}
