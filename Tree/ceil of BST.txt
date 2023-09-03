@@ -1,5 +1,6 @@
 class Tree {
     // Function to return the ceil of given number in BST.
+    // min val >= key
     int findCeil(Node root, int key) {
        
        int ceil = -1;
