@@ -1,0 +1,48 @@
+class Tree {
+    // Function to delete a node from BST.
+    public static Node deleteNode(Node root, int X) {
+        
+        if(root == null) return root;
+        
+        if(root.data == X){
+            return helper(root);
+        }
+        
+        Node dummy = root;
+        while(root != null){
+            if(root.data > X){
+                if(root.left != null && root.left.data == X){
+                    root.left = helper(root.left);
+                    break;
+                }else{
+                    root = root.left;
+                }
+            }else{
+                if(root.right != null && root.right.data == X){
+                    root.left = helper(root.right);
+                    break;
+                }else{
+                    root = root.right;
+                }
+            }
+        }
+        
+        return dummy;
+    }
+    
+    static Node helper(Node root){
+        if(root.left == null) return root.right;
+        else if(root.right == null) return root.left;
+        else{
+            Node rightChild = root.right;
+            Node lastRight = findLast(root.left);
+            lastRight.right = rightChild;
+            return root.left;
+        }
+    }
+    
+    static Node findLast(Node root){
+        if(root.right == null) return root;
+        return findLast(root.right);
+    }
+}
