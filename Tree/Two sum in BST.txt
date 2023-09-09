@@ -1,0 +1,47 @@
+class BSTIterator{
+    boolean reverse = true;
+    Stack<Node> st = new Stack<>();
+    
+    BSTIterator(Node root, boolean reverse){
+        this.reverse = reverse;
+        pushAll(root);
+    }
+    
+    boolean hasNext(){
+        return !st.isEmpty();
+    }
+    
+    int next(){
+        Node top = st.pop();
+        if(!reverse) pushAll(top.right);
+        else pushAll(top.left);
+        return top.data;
+    }
+    
+    void pushAll(Node root){
+        while(root != null){
+            st.push(root);
+            if(!reverse) root = root.left;
+            else root = root.right;
+        }
+    }
+}
+class Solution
+{
+    public int isPairPresent(Node root, int target)
+    {
+        BSTIterator l = new BSTIterator(root, false);
+        BSTIterator r = new BSTIterator(root, true);
+        
+        int i = l.next();
+        int j = r.next();
+    
+        while(i < j){
+            if(i + j == target) return 1;
+            if(i + j > target) j = r.next();
+            else i = l.next();
+        }
+        
+        return 0;
+    }
+}
