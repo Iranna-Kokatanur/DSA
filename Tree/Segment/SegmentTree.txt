@@ -1,0 +1,120 @@
+-import javax.swing.GroupLayout.SequentialGroup;
+
+public class SegmentTree {
+	
+	public static class Node{
+		private Node leftNode;
+		private Node rightNode;
+		private int startInterval;
+		private int endInterval;
+		private int data;
+		
+		public Node(int startInterval, int endInterval) {
+			this.startInterval = startInterval;
+			this.endInterval = endInterval;
+		}
+	}
+	
+	private Node root;
+	
+	public SegmentTree(int [] arr) {
+		this.root = insert(arr, 0, arr.length - 1);
+	}
+	
+	private Node insert(int [] arr, int start, int end) {
+		if(start == end) {
+			Node node = new Node(start, end);
+			node.data = arr[start];
+			return node;
+		}
+		
+		Node node = new Node(start, end);
+		
+		int mid = (start + end)/2;
+		
+		node.leftNode = insert(arr, start, mid);
+		node.rightNode = insert(arr, mid + 1, end);
+		
+		node.data = node.leftNode.data + node.rightNode.data;
+		
+		return node;
+	}
+	
+	public void display() {
+		display(this.root);
+	}
+	
+	private void display(Node root) {
+		if(root.leftNode != null) {
+			System.out.println("Left:=> "+"Start: "+root.leftNode.startInterval+" End: "+root.leftNode.endInterval+" Data: "+root.leftNode.data);
+		}else {
+			System.out.println("Left node not exist");
+		}
+		
+		System.out.println("Current:=> "+"Start: "+root.startInterval+" End: "+root.endInterval+" Data: "+root.data);
+
+		
+		if(root.rightNode != null) {
+			System.out.println("Right:=> "+"Start: "+root.rightNode.startInterval+" End: "+root.rightNode.endInterval+" Data: "+root.rightNode.data);
+		}else {
+			System.out.println("Right node not exist");
+		}
+		
+		if(root.leftNode != null) {
+			display(root.leftNode);
+		}
+		
+		if(root.rightNode != null) {
+			display(root.rightNode);
+		}
+	}
+	
+	public int getVal(int start, int end) {
+		return getVal(this.root, start, end);
+	}
+	
+	private int getVal(Node root, int start, int end) {
+		if( root.startInterval >= start && root.endInterval <= end) {
+			return root.data;
+		}
+		
+		if(start > root.endInterval || root.startInterval > end ) {
+			return 0;
+		}
+		
+		return this.getVal(root.leftNode, start, end) + this.getVal(root.rightNode, start, end);
+		
+	}
+	
+	public int update(int data, int index) {
+		return update(data, index, root);
+	}
+	
+	public int update(int data, int index, Node root) {
+		if(index >= root.startInterval && index <= root.endInterval) {
+			if(index == root.startInterval && index == root.endInterval) {
+				root.data = data;
+				return root.data;
+			}else {
+				int left = update(data, index, root.leftNode);
+				int right = update(data, index, root.rightNode);
+				
+				root.data = left + right;
+				return root.data;
+			}
+		}
+		
+		return root.data;
+	}
+	
+	public static void main(String[] args) {
+		int arr[] = {3, 8, 7, 6, -2, -8, 4, 9};
+		SegmentTree tree = new SegmentTree(arr);
+		System.out.println(tree.getVal(0, 9));
+		tree.display();
+		
+		tree.update(4, 1);
+		System.out.println(tree.getVal(1, 1));
+	}
+}
+
