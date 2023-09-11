@@ -1,0 +1,82 @@
+
+
+//FIND MAXIMUM XOR IN THE ARRAY USING TRIE
+public class Trie4 {
+	
+	//Check i th bit set or not in n =>  (n >> 3) & 1 != 0 then set otherwise not set.
+	
+	// set i th bit in n => n | (1 << i) 
+	
+	class Node{
+		Node[] links = new Node[2];
+		
+		public Node() {
+			
+		}
+		
+		boolean containsKey(int ind) {
+			return links[ind] != null;
+		}
+		
+		Node get(int ind) {
+			return links[ind];
+		}
+		
+		void put(int ind, Node node) {
+			links[ind] = node;
+		}
+	}
+	
+	private Node root;
+	
+	Trie4(){
+		root = new Node();
+	}
+	
+	private void insert(int num) {
+		Node node = root;
+		for(int i = 31; i>=0; i--) {
+			int bit = (num >> i) & 1;
+			if(!node.containsKey(bit)) {
+				node.put(bit, new Node());
+			}
+			
+			node = node.get(bit);
+		}
+	}
+	
+	private int getMax(int num) {
+		Node node = root;
+		
+		int maxNum = 0;
+		
+		for(int i = 31; i>=0; i--) {
+			int bit = (num >> i) & 1;
+			if(node.containsKey(1 - bit)) {
+				maxNum = maxNum | ( 1 << i);
+				node = node.get(1 - bit);
+			}else {
+				node = node.get(bit);
+			}
+		}
+		
+		return maxNum;
+	}
+	
+	public static void main(String[] args) {
+		 
+		
+		Trie4 trie = new Trie4();
+		
+		int arr[] = {8, 7, 4, 5};
+		
+		for(int num: arr) trie.insert(num);
+		
+		int maxi = 0;
+		
+		for(int num : arr) maxi = Math.max(maxi, trie.getMax(num));
+		
+		System.out.println("MAX: "+maxi);
+	}
+
+}
