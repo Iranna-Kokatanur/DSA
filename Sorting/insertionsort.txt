@@ -10,7 +10,7 @@ public class InsertionSort {
 
 	public static void insertionSort(int [] arr) {
 		
-		//O(n2) - worst, o(n) if the array is initially sorted
+		//O(n2) - worst, o(n) if the array is initially sorted, stable
 		
 		// stable, used for small data and not used in hybrid sorting.
 		
