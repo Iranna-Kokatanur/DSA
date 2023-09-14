@@ -1,0 +1,88 @@
+import java.util.Arrays;
+
+public class InsertionSort {
+	
+	public static void main(String[] args) {
+		int arr[] = {3, 2, 3, 4, 5};
+		inplacemergesort(arr, 0, arr.length);
+		System.out.println(Arrays.toString(mergesort(arr)));
+		
+		//o(nlogn)
+	}
+	
+	public static int[] mergesort(int arr[]) {
+		
+		if(arr.length == 1) return arr;
+		
+		int mid = arr.length/2;
+		
+		int[] left = mergesort(Arrays.copyOfRange(arr, 0, mid));
+		int[] right = mergesort(Arrays.copyOfRange(arr, mid, arr.length));
+		
+		return merge(left, right);
+	}
+	
+	public static void inplacemergesort(int [] arr, int start, int end) {
+		if(end - start == 1) return;
+		int mid = (start + end)/2;
+		inplacemergesort(arr, start, mid);
+		inplacemergesort(arr, mid, end);
+		inplacemerge(arr, mid, start, end);
+	}
+	
+	private static void inplacemerge(int[] arr, int mid, int start, int end) {
+		// TODO Auto-generated method stub
+		
+		int finalArr[] = new int[end - start];
+		
+		int j = mid, i = start, k = 0;
+		
+		while(i<mid && j<end) {
+			if(arr[i] < arr[j]) {
+				finalArr[k++] = arr[i++];
+			}else {
+				finalArr[k++] = arr[j++];
+			}
+		}
+		
+		while(i<mid) {
+			finalArr[k++] = arr[i++];
+		}
+		
+		while(j<end) {
+			finalArr[k++] = arr[j++];
+		}
+		
+		for(int l = 0; l<finalArr.length; l++) arr[start + l] = finalArr[l];
+	}
+
+	
+	
+	private static int[] merge(int[] left, int[] right) {
+		
+		int length = left.length + right.length;
+		
+		int finalArr[] = new int[length];
+		
+		int j = 0, i = 0, k = 0;
+		
+		while(i<left.length && j<right.length) {
+			if(left[i] < right[j]) {
+				finalArr[k++] = left[i++];
+			}else {
+				finalArr[k++] = right[j++];
+			}
+		}
+		
+		while(i<left.length) {
+			finalArr[k++] = left[i++];
+		}
+		
+		while(j<right.length) {
+			finalArr[k++] = right[j++];
+		}
+		
+		return finalArr;
+	}
+	
+}
