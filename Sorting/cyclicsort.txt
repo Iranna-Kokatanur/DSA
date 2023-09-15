@@ -1,0 +1,29 @@
+import java.util.Arrays;
+
+public class InsertionSort {
+	
+	public static void main(String[] args) {
+		int arr[] = {2, 1, 3, 4, 5};
+		cyclicsort(arr);
+		//o(n) Cyclic sort will only get apply when the elements are 1 to n, o(1) space complexity
+		System.out.println(Arrays.toString(arr));
+	}
+	
+	
+	public static void cyclicsort(int [] arr) {
+		
+		//need to check the index = arr[index] - 1
+		int i = 0;
+		while(i < arr.length) {
+			int index = arr[i] - 1;
+			if(arr[i] != arr[index]) {
+				int temp = arr[i];
+				arr[i] = arr[index];
+				arr[index] = temp;
+			}else {
+				i++;
+			}
+		}
+	}
+	
+}
