@@ -1,0 +1,22 @@
+class Solution {
+    public List<Integer> findDuplicates(int[] arr) {
+        int i = 0;
+
+        while(i < arr.length){
+            int index = arr[i] - 1;
+            if(arr[i] != arr[index]){
+                int temp = arr[i];
+                arr[i] = arr[index];
+                arr[index] = temp;
+            }else{
+                i++;
+            }
+        }
+        i = 0;
+        List<Integer> ans = new ArrayList<>();
+        for(; i<arr.length; i++){
+            if(arr[i] != i + 1) ans.add(arr[i]);
+        }
+        return ans;
+    }
+}
