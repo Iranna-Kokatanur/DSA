@@ -1,0 +1,35 @@
+public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || head.next == null || k == 0) return head;
+       ListNode temp = head;
+       
+       int count = 1;
+       
+       //Find the length of the linkedlist
+      
+       while(temp.next != null){
+           temp = temp.next;
+           count++;
+       }
+       
+       //Make it as circular linkedlist
+       temp.next = head;
+       
+       //Find the total rotations
+       
+       int rotations = k % count;
+       
+       //length for finding the node
+       
+       int newLength = count - rotations;
+       
+       while(newLength > 0){
+           temp = temp.next;
+           newLength--;
+       }
+       
+       head = temp.next;
+       
+       temp.next = null;
+       
+       return head;
+    }
