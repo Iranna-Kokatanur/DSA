@@ -1,0 +1,33 @@
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+
+        if(head == null || head.next == null) return null;
+
+        ListNode slow = head, fast = head, entry = head;
+
+        // l1 = distance from head to starting point of intersection
+        // l2 = distance from starting point of intersection to the collision point
+        // nc = no of turns to fast covers to meet the slow (collision point)
+        // slow covers = > l1 + l2
+        // fast covers = > l1 + l2 + nc
+        // 2 * slow = fast
+        // l1 = nc - l2
+
+        while(fast.next != null && fast.next.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+            if(slow == fast){
+                while(entry != slow){
+                    slow = slow.next;
+                    entry = entry.next;
+                }
+                return entry;
+            }
+        }
+
+        return null;
+
+
+        
+    }
+}
