@@ -1,0 +1,30 @@
+class Solution
+{
+    static int findSubArraySum(int arr[], int N, int k)
+    {
+        HashMap<Integer, Integer> mpp = new HashMap<>();
+        
+        mpp.put(0, 1); //prefixSum, count
+        
+        int cnt = 0;
+        
+        int preSum = 0;
+        
+        for (int i = 0; i < arr.length; i++) {
+            // add current element to prefix Sum:
+            preSum += arr[i];
+
+            // Calculate x-k:
+            int remove = preSum - k;
+
+            // Add the number of subarrays to be removed:
+            cnt += mpp.getOrDefault(remove, 0);
+
+            // Update the count of prefix sum
+            // in the map.
+            mpp.put(preSum, mpp.getOrDefault(preSum, 0) + 1);
+        }
+        
+        return cnt;
+    }
+}
