@@ -12,11 +12,20 @@ class Solution{
         long ans = 0;
         
         long max_num = arr[0];
+
+        //To find the indexes
+
+        long start = 0;
+        long ansStart = 0, ansEnd = 0;
         
         for(int i = 0; i<arr.length; i++){
             ans += arr[i];
-            
-            if(max_num > arr[i]) max_num = arr[i];
+            if(ans == 0) start = i;
+            if(max_num > arr[i]) {
+                    max_num = arr[i];
+                    ansStart = start;     
+                    ansEnd = i;
+            }
             if(ans > min) min = ans;
             if(ans < 0) ans = 0;
             
