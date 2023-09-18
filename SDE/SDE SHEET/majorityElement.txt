@@ -1,5 +1,5 @@
 
-
+// FOR N/3 elements maximum 2 elements will occur in the ans
 
 import java.util.*;
 
@@ -55,5 +55,36 @@ public class tUf {
             System.out.print(ans.get(i) + " ");
         }
         System.out.println();
+    }
+}
+
+
+//MY CODE
+
+class Solution
+{
+    static int majorityElement(int a[], int size)
+    {   
+        if(size == 0) return -1;
+        if(size == 1) return a[0];
+        
+        Arrays.sort(a);
+        
+        HashMap<Integer, Integer> ans = new HashMap<>();
+        
+        for(int i = 0; i<a.length; i++){
+            if(ans.get(a[i]) != null){
+                int cnt = ans.get(a[i]);
+                ans.put(a[i], cnt+1);
+            }else{
+                ans.put(a[i], 1);
+            }
+        }
+        
+        for (Map.Entry<Integer,Integer> itr : ans.entrySet()){
+            if(itr.getValue() > size/2) return itr.getKey();
+        }
+        
+        return -1;
     }
 }
