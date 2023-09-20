@@ -1,0 +1,38 @@
+class Solution
+{
+    //Function to return a list of indexes denoting the required 
+    //combinations whose sum is equal to given number.
+    static ArrayList<ArrayList<Integer>> combinationSum(ArrayList<Integer> A, int B)
+    {   
+        ArrayList<ArrayList<Integer>> finalAns = new ArrayList<>();
+        
+         Set<Integer> set = new HashSet<>(A);
+         A.clear();
+         A.addAll(set);
+         Collections.sort(A);
+        
+        combinationSum(A, B, 0, new ArrayList<>(), finalAns);
+        
+        return finalAns;
+    }
+    
+    static void combinationSum(ArrayList<Integer> A, int B, int index, ArrayList<Integer>ans, ArrayList<ArrayList<Integer>> finalAns){
+        
+        if(index == A.size()){
+            if(B == 0){
+                // if(!finalAns.contains(ans))
+                    finalAns.add(new ArrayList<>(ans));
+            }
+            return;
+        }
+        
+        if(B >= A.get(index)){
+            ans.add(A.get(index));
+            combinationSum(A, B - A.get(index), index, ans, finalAns);
+            ans.remove(ans.size() - 1);
+        }
+        
+        combinationSum(A, B, index + 1, ans, finalAns);
+    }
+    
+}
