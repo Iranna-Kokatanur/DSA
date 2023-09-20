@@ -1,0 +1,69 @@
+class Solution{
+    
+    static boolean isSafe(int row, int col, int [][] board, int n){
+        int duprow = row;
+        int dupcol = col;
+        
+        while(row >= 0 && col >= 0){
+            if(board[row][col] == 1) return false;
+            row --;
+            col --;
+        }
+        
+        row = duprow;
+        col = dupcol;
+        
+        while(col >= 0){
+           if(board[row][col] == 1) return false;
+            col --; 
+        }
+        
+        row = duprow;
+        col = dupcol;
+        
+        while(row < n && col >= 0){
+           if(board[row][col] == 1) return false;
+            row ++;
+            col --;
+        }
+        
+        // System.out.println("Row: "+duprow + "Col: "+ dupcol);
+        return true;
+    }
+    
+    static void solveNQueens(int [][] board, ArrayList<ArrayList<Integer>> finalAns, int col, int n, ArrayList<Integer> ans){
+        
+        if(col == n){
+            finalAns.add(new ArrayList<>(ans));
+            return;
+        }
+        
+        for(int row = 0; row<n; row++){
+            if(isSafe(row, col, board, n)){
+                board[row][col] = 1;
+                ans.add(row + 1);
+                solveNQueens(board, finalAns, col + 1, n, ans);
+                board[row][col] = 0;
+                ans.remove(ans.size() - 1);
+                // System.out.println("Ans size: "+ans.size());
+            }
+        }
+    }
+    
+    static ArrayList<ArrayList<Integer>> nQueen(int n) {
+         
+         int [][] board = new int[n][n];
+         
+         for(int i = 0; i<n; i++){
+             for(int j = 0; j<n; j++){
+                 board[i][j] = 0;
+             }
+         }
+         
+         ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+         
+         solveNQueens(board, ans, 0, n, new ArrayList<>());
+         
+         return ans;
+    }
+}
