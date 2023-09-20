@@ -1,0 +1,22 @@
+
+public class Bit {
+	
+	public static void main(String[] args) {
+		
+		String str = "abc";
+		
+		int n = str.length();
+		
+		for(int num = 0; num <= ((1 << n) - 1); num++) {
+			String ans = "";
+			for(int i = 0; i<n; i++) {
+				int index = num & (1 << i);
+				if(index != 0)
+					ans += str.charAt(i);
+			}
+			System.out.println(ans);
+		}
+		
+	}
+
+}
