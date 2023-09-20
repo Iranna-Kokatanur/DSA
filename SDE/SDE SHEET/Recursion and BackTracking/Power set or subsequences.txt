@@ -19,4 +19,29 @@ public class Bit {
 		
 	}
 
+
+
+//
+
+public static void main(String[] args) {
+		
+		String str = "abc";
+		
+		printSubSequences(0, "", str);
+		
+	}
+
+	private static void printSubSequences(int i, String ans, String str) {
+		
+		if(i >= str.length()) {
+			if(ans.length() == 0) System.out.println("{}");
+			else System.out.println(ans);
+			return;
+		}
+		
+		printSubSequences(i+1, ans, str);
+		printSubSequences(i+1, ans+str.charAt(i), str);
+		
+	}
+
 }
