@@ -1,0 +1,72 @@
+class Solution
+{
+    //Function to find largest rectangular area possible in a given histogram.
+    public static long getMaxArea(long hist[], long N) 
+    {   
+        int n = hist.length;
+        
+        int[] leftSmall = new int[n];
+        int[] rightSmall = new int[n];
+        
+        Stack<Integer> st = new Stack<>();
+        
+        for(int i = 0; i<n; i++){
+            while(!st.isEmpty() && hist[i] <= hist[st.peek()]) st.pop();
+            
+            if(st.isEmpty()) leftSmall[i] = 0;
+            else leftSmall[i] = st.peek() + 1;
+            
+            st.add(i);
+        }
+        
+        while(!st.isEmpty()) st.pop();
+        
+        for(int i = n - 1; i>=0; i--){
+            while(!st.isEmpty() && hist[i] <= hist[st.peek()]) st.pop();
+            
+            if(st.isEmpty()) rightSmall[i] = n - 1;
+            else rightSmall[i] = st.peek() - 1;
+            
+            st.add(i);
+        }
+        
+        
+        long ans = 0;
+        
+        for(int i = 0; i<n; i++){
+            ans = Math.max(ans, hist[i]*(rightSmall[i] - leftSmall[i] + 1));
+        }
+        
+        return ans;
+    }
+        
+}
+
+
+//OPTIMAL SOLUTION
+
+
+
+        long ans = 0;
+        
+        long width = 0;
+        
+        int n = hist.length;
+        
+        Stack<Integer> st = new Stack<>();
+        
+        for(int i = 0; i<=n; i++){
+            
+            while(!st.isEmpty() && (i == n || hist[st.peek()] >= hist[i])){
+                
+                long height = hist[st.peek()];
+                st.pop();
+                if(st.isEmpty()) width = i;
+                else width = i - st.peek() - 1;
+                ans = Math.max(ans, height * width);
+            }
+            
+            st.add(i);
+        }
+        
+        return ans;
