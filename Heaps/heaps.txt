@@ -1,0 +1,142 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
+class MinHeap<T extends Comparable<T>>{
+	
+	// This is the implementation of Min Heap
+	
+	private ArrayList<T> list;
+	
+	public MinHeap() {
+		this.list = new ArrayList<>();
+	}
+	
+	private void swap(int first, int second) {
+		T temp = list.get(first);
+		list.set(first, list.get(second));
+		list.set(second, temp);
+	}
+	
+	private int left(int index) {
+		return index * 2 + 1;
+	}
+	
+	private int right(int index) {
+		return index * 2 + 2;
+	}
+	
+	public void insert(T value) {
+		list.add(value);
+		upheap(list.size() - 1);
+	}
+
+	private void upheap(int index) {
+		if(index == 0) return;
+		int p = parent(index);
+		
+		if(list.get(index).compareTo(list.get(p)) < 0) {
+			swap(index, p);
+			upheap(p);
+		}
+	}
+
+	private int parent(int index) {
+		return index / 2;
+	}
+	
+	public T remove() throws Exception{
+		
+		// For removing the element from heap, replace first element with last element and remove last element, and to store the elements in order
+		// just call downheap
+		
+		if(list.isEmpty()) {
+			throw new Exception("Removing from an empty heap !!");
+		}
+		
+		T temp = list.get(0);
+		
+		T last = list.remove(list.size() - 1);
+		
+		if(!list.isEmpty()) {
+			list.set(0, last);
+			downheap(0);
+		}
+		return temp;
+	}
+	
+	private void downheap(int index) {
+		int min = index;
+		
+		int left = left(index);
+		int right = right(index);
+		
+		if(left < list.size() && list.get(min).compareTo(list.get(left)) > 0) {
+			min = left;
+		}
+		
+		if(right < list.size() && list.get(min).compareTo(list.get(right)) > 0) {
+			min = right;
+		}
+		
+		if(min != index) {
+			swap(min, index);
+			downheap(min);
+		}
+	}
+	
+	
+	public ArrayList<T> heapSort() throws Exception{
+		
+		ArrayList<T> ans = new ArrayList<>();
+		
+		while(!list.isEmpty()) {
+			ans.add(this.remove());
+		}
+		
+		return ans;
+	}
+}
+
+public class Heaps {
+	
+	// Heaps are used to store the elements in constant time
+	
+	// This is also be called PriorityQueue using heaps
+	
+	// Heaps are represented in trees but using the Array/ArrayList to store the elements
+	
+	//	Heap is complete binary tree.
+	// Every node value >= all of its children for max heap
+	// Every node value <= all of its children for min heap
+	
+	//root => i = 1
+	// parent(i) => i/2
+	// left (i)  => 2*i
+	// right (i) => 2*i+1
+	
+	// Height : log(n)
+	
+	//inserting and removing in heaps is just log(n) for single element
+	
+	
+	public static void main(String[] args) throws Exception {
+		
+		MinHeap<Integer> heap = new MinHeap();
+		
+		heap.insert(5);
+		heap.insert(-1);
+		heap.insert(2);
+		heap.insert(1);
+		
+		heap.remove();
+		
+		ArrayList<Integer> ans = heap.heapSort();
+		
+		System.out.println(ans);
+		
+	}
+	
+	
+
+}
