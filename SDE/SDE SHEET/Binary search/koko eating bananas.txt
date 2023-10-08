@@ -1,0 +1,42 @@
+class Solution {
+    
+    public static int getAns(int H, int[] piles){
+        int totalHrs = 0;
+        
+        for(int i = 0; i<piles.length; i++){
+            totalHrs += Math.ceil((double)piles[i]/(double)H);
+        }
+        
+        return totalHrs;
+    }
+    
+    public static int Solve(int N, int[] piles, int H) {
+        
+       int ans = 0;
+       
+       int max = Integer.MIN_VALUE;
+       
+       for(int i = 0; i<piles.length; i++){
+           if(piles[i] > max) max = piles[i];
+       }
+       
+       int low = 1;
+       int high = max;
+       
+       while(low <= high){
+           int mid = (low + high)/2;
+           
+           int totalHrs = getAns(mid, piles);
+           
+           if(totalHrs <= H){
+               high = mid - 1;
+           }else{
+               low = mid + 1;
+           }
+           
+       }
+       
+       return low;
+       
+    }
+}
