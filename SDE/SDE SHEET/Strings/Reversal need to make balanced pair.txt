@@ -1,0 +1,30 @@
+class Sol
+{
+    int countRev (String s)
+    {
+        if(s.length() % 2 == 1) return -1;   
+        int open = 0, close = 0;
+        
+        for(int i = 0; i<s.length(); i++){
+            char ch = s.charAt(i);
+            
+            if(ch == '{'){
+                open++;
+            }else{
+                if(open>0) open--;
+                else close++;
+            }
+        }
+        
+        int total = 0;
+        
+        if(open % 2 == 0) total += (open / 2);
+        else total += (open + 1)/2;
+        
+        if(close % 2 == 0) total += (close / 2);
+        else total += (close + 1)/2;
+        
+        return total;
+        
+    }
+}
